@@ -1,4 +1,4 @@
-# AET5895-SP20
+# AET5895-SP21
 Repository for Audio Software Development course
 
 YouTube Playlist of Lectures
