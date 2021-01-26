@@ -31,15 +31,25 @@ int main() {
     float currentAngle = 0.0f;
     float angleChange = freq * 2.0f * M_PI / (float)Fs;
     float pix2 = 2.0f * M_PI;
+    
+    float duty = 75.f;
+    float cyclePoint = 2.f*M_PI*(duty/100.f);
     for (int n = 0; n < N ; n++){
-        signal[n] = A * sin(currentAngle);
+        //float currentSample = sin(currentAngle);
+        if (currentAngle < cyclePoint){
+            signal[n] = A;// * 1.f;
+        }
+        else{
+            signal[n] = -A;// * -1.f;
+        }
+        
         currentAngle += angleChange; // curAng = curAng + angCh
         if (currentAngle > pix2){
             currentAngle -= pix2;
         }
     }
     
-    string outName = "Sinewave.wav";
+    string outName = "Squarewave75.wav";
     audiowrite(outName,signal,Fs,bitDepth,numChannels);
     
     
