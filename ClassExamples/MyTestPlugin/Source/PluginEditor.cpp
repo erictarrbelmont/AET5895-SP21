@@ -20,11 +20,17 @@ MyTestPluginAudioProcessorEditor::MyTestPluginAudioProcessorEditor (MyTestPlugin
     gainSlider.addListener(this); // listen to user interaction with this GUI window
     gainSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag); // Circular knob
     gainSlider.setBounds(40,90,120,120); // position on GUI
-    gainSlider.setRange(0.f,4.f,.01f);
-    gainSlider.setSkewFactorFromMidPoint(1.f);
+    gainSlider.setRange(1.f,10.f,.01f);
+    //gainSlider.setSkewFactorFromMidPoint(1.f);
     gainSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 60, 30);
     gainSlider.setValue(audioProcessor.gain);
     addAndMakeVisible(gainSlider);
+    
+    muteButton.addListener(this);
+    muteButton.setBounds(200,90,120,20);
+    muteButton.setButtonText("Mute");
+    muteButton.setToggleState(audioProcessor.muteOn, dontSendNotification);
+    addAndMakeVisible(muteButton);
     
 }
 
@@ -58,5 +64,13 @@ void MyTestPluginAudioProcessorEditor::sliderValueChanged(Slider *slider){
         audioProcessor.gain = gainSlider.getValue();
     }
     
+    
+}
+
+void MyTestPluginAudioProcessorEditor::buttonClicked(Button * button){
+    
+    if (button == &muteButton){
+        audioProcessor.muteOn = !audioProcessor.muteOn;
+    }
     
 }

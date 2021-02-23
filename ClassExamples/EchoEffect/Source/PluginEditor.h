@@ -14,28 +14,26 @@
 //==============================================================================
 /**
 */
-class MyTestPluginAudioProcessorEditor  : public juce::AudioProcessorEditor,
-                                            public juce::Slider::Listener,
-                                            public juce::Button::Listener
+class EchoEffectAudioProcessorEditor  : public juce::AudioProcessorEditor,
+                                        public juce::Slider::Listener
 {
 public:
-    MyTestPluginAudioProcessorEditor (MyTestPluginAudioProcessor&);
-    ~MyTestPluginAudioProcessorEditor() override;
+    EchoEffectAudioProcessorEditor (EchoEffectAudioProcessor&);
+    ~EchoEffectAudioProcessorEditor() override;
 
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
+    
     void sliderValueChanged(Slider * slider) override;
-    void buttonClicked(Button * button) override;
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    MyTestPluginAudioProcessor& audioProcessor;
+    EchoEffectAudioProcessor& audioProcessor;
     
-    Slider gainSlider;
+    Slider delayKnob;
     
-    ToggleButton muteButton;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MyTestPluginAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EchoEffectAudioProcessorEditor)
 };

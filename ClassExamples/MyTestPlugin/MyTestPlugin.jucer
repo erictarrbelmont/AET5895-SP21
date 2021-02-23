@@ -4,6 +4,8 @@
               addUsingNamespaceToJuceHeader="1" jucerFormatVersion="1" pluginFormats="buildAU">
   <MAINGROUP id="n2YNcg" name="MyTestPlugin">
     <GROUP id="{F37B3270-487C-B313-1464-E852478B1F65}" name="Source">
+      <FILE id="fVvgXG" name="Distortion.cpp" compile="1" resource="0" file="Source/Distortion.cpp"/>
+      <FILE id="rTpe9W" name="Distortion.h" compile="0" resource="0" file="Source/Distortion.h"/>
       <FILE id="v6kUuY" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="RoIZDv" name="PluginProcessor.h" compile="0" resource="0"

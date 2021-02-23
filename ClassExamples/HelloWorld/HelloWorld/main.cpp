@@ -12,44 +12,68 @@
 using namespace std;
 
 // Declare a new function
-float myFunction(float m, float & n);
+//float myFunction(float m, float & n);
 
+void processSignal(float * signal, const int numSamples);
 
 int main(int argc, const char * argv[]) {
     
-    cout << "Hello, World!\n";
+    //cout << "Hello, World!\n";
+    static const int numSamples = 5;
+    float array[numSamples];
+    for (int n = 0; n < 5; n++){
+        array[n] = n;
+    }
 
-    int a;
-    a = 3/2;
+    // New "data type" called pointer
+    float * index; // use * to say this is a pointer to something that is a float
     
-    int c = 6;
+    index = array;
+     
+    processSignal(index, numSamples);
     
-    float b;
-    b = 5.5f;
+
     
-    float g;
-    g = 6.0;
-    
-    cout << a << endl;
-    
-    float x[5] = {0.0f};
-    x[0] = 12.0f;
-    x[3] = -6.2f;
-    
-    // Pass in variables b & g to function
-    float z = myFunction(b,g);
-    
+//    cout << index << endl; // memory location or reference of signal array
+//    cout << *index << endl; // this is "de-referencing" the pointer
+//                            // access data in memory location
+//
+//    index++;
+//
+//    cout << index << endl; // memory location or reference of signal array
+//    cout << *index << endl; // this is "de-referencing" the pointer
+//                            // access data in memory location
+//
+//    float number = 10.f;
+//
+//    index = &number; // assign memory location of number to float pointer
+//
+//    cout << index << endl; // memory location or reference of signal array
+//    cout << *index << endl; // this is "de-referencing" the pointer
     
     return 0;
 }
 
-// Implement the function
-float myFunction(float m, float & n){
+void processSignal(float * signal, const int numSamples){
     
-    float w = m + n;
+    for (int n = 0; n < numSamples ; n++){
+        float x = *signal; // get value at pointer and assign to "x"
+        
+        *signal = 2.f*x;
+        
+        signal++;
+    }
     
-    m += 1.0f;
-    n += 1.0f;
-    
-    return w;
 }
+
+
+//// Implement the function
+//float myFunction(float m, float & n){
+//
+//    float w = m + n;
+//
+//    m += 1.0f;
+//    n += 1.0f;
+//
+//    return w;
+//}

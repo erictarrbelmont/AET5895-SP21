@@ -9,17 +9,17 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "Distortion.h"
+#include "Echo.h"
 
 //==============================================================================
 /**
 */
-class MyTestPluginAudioProcessor  : public juce::AudioProcessor
+class EchoEffectAudioProcessor  : public juce::AudioProcessor
 {
 public:
     //==============================================================================
-    MyTestPluginAudioProcessor();
-    ~MyTestPluginAudioProcessor() override;
+    EchoEffectAudioProcessor();
+    ~EchoEffectAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -54,14 +54,12 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
-    float hardClip(float x);
+    float delayMS = 100.f;
     
-    float gain = 1.f;
-    bool  muteOn = false;
 private:
     
-    Distortion myDistortion;
+    Echo echo;
     
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MyTestPluginAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EchoEffectAudioProcessor)
 };
