@@ -135,18 +135,31 @@ void EchoEffectAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     
-    echo.setDelayMS(delayMS);
+    if (tempoSyncd){
+        playHead = this->getPlayHead();
+        playHead->getCurrentPosition(currentPositionInfo);
+        
+        float newBPM = currentPositionInfo.bpm;
+        if (bpm != newBPM){
+            // update echo
+            echo.setBPM(newBPM);
+            bpm = newBPM;
+        }
+        echo.setNoteDuration(noteDuration);
+    }
+    else{ // not tempo sync'd
+        echo.setDelayMS(delayMS);
+    }
     
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        for (int n = 0; n < buffer.getNumSamples() ; ++n){
-            float x = buffer.getReadPointer(channel)[n];
-            
-            x = echo.processSample(x, channel);
-            
-            buffer.getWritePointer(channel)[n] = x;
-            
-        }
+//        for (int n = 0; n < buffer.getNumSamples() ; ++n){
+//            float x = buffer.getReadPointer(channel)[n];
+//            x = echo.processSample(x, channel);
+//            buffer.getWritePointer(channel)[n] = x;
+//        }
+        float * channelData = buffer.getWritePointer(channel);
+        echo.processSignal(channelData, buffer.getNumSamples(), channel);
     }
 }
 

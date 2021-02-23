@@ -19,17 +19,24 @@ public:
     // Constructor
     Echo();
     
-    void processSignal(float * signal, int numSamples);
+    void processSignal(float * signal, const int numSamples, const int c);
     
     float processSample(float x, int c);
     
     void prepare(float newFs);
     
     void setDelayMS(float newDelayMS);
+    
+    void setBPM(float newBPM);
+    void setNoteDuration (float newNoteDuration);
 
 private:
     
     float Fs = 48000.f;
+    
+    float bpm = 120.f;
+    
+    float noteDuration = 1.f; // 1 - quarter, 2 - half, 0.5 - 8th, 0.25 - 16th
     
     float delayMS = 500.f;
     int delaySamples = round(Fs*delayMS/1000.f); // number of samples of delay

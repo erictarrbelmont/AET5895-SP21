@@ -15,7 +15,8 @@
 /**
 */
 class EchoEffectAudioProcessorEditor  : public juce::AudioProcessorEditor,
-                                        public juce::Slider::Listener
+                                        public juce::Slider::Listener,
+                                        public juce::ComboBox::Listener
 {
 public:
     EchoEffectAudioProcessorEditor (EchoEffectAudioProcessor&);
@@ -26,6 +27,7 @@ public:
     void resized() override;
     
     void sliderValueChanged(Slider * slider) override;
+    void comboBoxChanged(ComboBox * comboBox) override;
 
 private:
     // This reference is provided as a quick way for your editor to
@@ -33,7 +35,7 @@ private:
     EchoEffectAudioProcessor& audioProcessor;
     
     Slider delayKnob;
-    
+    ComboBox noteSelector;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EchoEffectAudioProcessorEditor)
 };
