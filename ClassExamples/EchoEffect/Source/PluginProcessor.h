@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "Echo.h"
+#include "VUAnalysis.h"
 
 //==============================================================================
 /**
@@ -58,9 +59,12 @@ public:
     float noteDuration = 1.f;
     bool tempoSyncd = true;
     
+    std::atomic<float> meterValue; // good for things that "interrupt" the audio thread
+    
 private:
     
     Echo echo;
+    VUAnalysis vuAnalysis;
     
     AudioPlayHead* playHead;
     AudioPlayHead::CurrentPositionInfo currentPositionInfo;

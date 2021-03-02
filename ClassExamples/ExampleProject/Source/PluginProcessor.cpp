@@ -145,9 +145,13 @@ void ExampleProjectAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        float x = gain.processSample(0.1f);
-
-        // ..do something to the data...
+        for (int n = 0; n < buffer.getNumSamples(); ++n){
+            float x = buffer.getReadPointer(channel)[n];
+            
+            float y = gain.processSample(x);
+            
+            buffer.getWritePointer(channel)[n] = y;
+        }
     }
 }
 

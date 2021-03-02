@@ -11,9 +11,9 @@
 #include "AudioEffect.h"
 
 
-float AudioEffect::processSample(float x){
-    return x;
-}
+//float AudioEffect::processSample(float x){
+//    return x;
+//}
 
 void AudioEffect::prepare(float newFs){
     Fs = newFs;

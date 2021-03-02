@@ -94,6 +94,7 @@ void EchoEffectAudioProcessor::changeProgramName (int index, const juce::String&
 void EchoEffectAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     echo.prepare(sampleRate);
+    vuAnalysis.setSampleRate(sampleRate);
 }
 
 void EchoEffectAudioProcessor::releaseResources()
@@ -153,13 +154,14 @@ void EchoEffectAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-//        for (int n = 0; n < buffer.getNumSamples() ; ++n){
-//            float x = buffer.getReadPointer(channel)[n];
-//            x = echo.processSample(x, channel);
-//            buffer.getWritePointer(channel)[n] = x;
-//        }
-        float * channelData = buffer.getWritePointer(channel);
-        echo.processSignal(channelData, buffer.getNumSamples(), channel);
+        for (int n = 0; n < buffer.getNumSamples() ; ++n){
+            float x = buffer.getReadPointer(channel)[n];
+            meterValue = vuAnalysis.processSample(x, channel);
+            x = echo.processSample(x, channel);
+            buffer.getWritePointer(channel)[n] = x;
+        }
+//        float * channelData = buffer.getWritePointer(channel);
+//        echo.processSignal(channelData, buffer.getNumSamples(), channel);
     }
 }
 

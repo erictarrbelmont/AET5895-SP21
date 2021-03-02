@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "SimpleMeter.h"
 
 //==============================================================================
 /**
@@ -17,7 +18,8 @@
 class EchoEffectAudioProcessorEditor  : public juce::AudioProcessorEditor,
                                         public juce::Slider::Listener,
                                         public juce::ComboBox::Listener,
-                                        public juce::Button::Listener
+                                        public juce::Button::Listener,
+                                        public Timer
 {
 public:
     EchoEffectAudioProcessorEditor (EchoEffectAudioProcessor&);
@@ -41,6 +43,10 @@ private:
     
     ToggleButton tempoSyncButton;
     ToggleButton notTempoSyncButton;
+    
+    SimpleMeter meter;
+    
+    void timerCallback() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EchoEffectAudioProcessorEditor)
 };

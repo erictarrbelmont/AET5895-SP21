@@ -17,9 +17,19 @@
 class Gain : public AudioEffect
 {
 public:
+    
+    // From AudioEffect we have:
+    // processSample
+    // prepare
+    
+    float processSample(float x) override;
+    
     void setGainValue(float newGain);
     
 private:
     float gain = 1.f;
+    
+    // From AudioEffect we have:
+    // Fs
     
 };

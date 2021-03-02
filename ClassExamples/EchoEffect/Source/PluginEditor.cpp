@@ -51,7 +51,15 @@ EchoEffectAudioProcessorEditor::EchoEffectAudioProcessorEditor (EchoEffectAudioP
     delayKnob.setEnabled(!audioProcessor.tempoSyncd);
     noteSelector.setEnabled(audioProcessor.tempoSyncd);
     
+    
+    meter.setBounds(25, 25, 10, 100);
+    meter.configuration = SimpleMeter::VERTICAL;
+    addAndMakeVisible(meter);
+    
+    startTimerHz(30);
+
 }
+
 
 EchoEffectAudioProcessorEditor::~EchoEffectAudioProcessorEditor()
 {
@@ -116,4 +124,8 @@ void EchoEffectAudioProcessorEditor::buttonClicked(Button * button){
         delayKnob.setEnabled(true);
         noteSelector.setEnabled(false);
     }
+}
+
+void EchoEffectAudioProcessorEditor::timerCallback(){
+    meter.update(audioProcessor.meterValue);
 }

@@ -11,6 +11,11 @@
 #include "Gain.h"
 
 
+float Gain::processSample(float x){
+    return x * gain;
+}
+
+
 void Gain::setGainValue(float newGain){
     gain = newGain;
 }
