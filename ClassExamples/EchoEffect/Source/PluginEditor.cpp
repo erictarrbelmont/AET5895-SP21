@@ -18,7 +18,7 @@ EchoEffectAudioProcessorEditor::EchoEffectAudioProcessorEditor (EchoEffectAudioP
     setSize (400, 300);
     
     delayKnob.addListener(this);
-    delayKnob.setBounds(100, 100, 125, 125);
+    delayKnob.setBounds(100, 50, 125, 125);
     delayKnob.setValue(audioProcessor.delayMS);
     delayKnob.setRange(10.f, 1000.f,1.f);
     delayKnob.setTextBoxStyle(Slider::TextBoxBelow, false, 75, 25);
@@ -34,6 +34,22 @@ EchoEffectAudioProcessorEditor::EchoEffectAudioProcessorEditor (EchoEffectAudioP
     noteSelector.setBounds(275, 100, 120, 40);
     addAndMakeVisible(noteSelector);
     
+    tempoSyncButton.addListener(this);
+    tempoSyncButton.setBounds(275, 175, 100, 40);
+    tempoSyncButton.setButtonText("Sync'd");
+    tempoSyncButton.setToggleState(audioProcessor.tempoSyncd, dontSendNotification);
+    tempoSyncButton.setRadioGroupId(1); // links with "notTempoSyncButton"
+    addAndMakeVisible(tempoSyncButton);
+    
+    notTempoSyncButton.addListener(this);
+    notTempoSyncButton.setBounds(100, 175, 100, 40);
+    notTempoSyncButton.setButtonText("Sync Off");
+    notTempoSyncButton.setToggleState(!audioProcessor.tempoSyncd, dontSendNotification);
+    notTempoSyncButton.setRadioGroupId(1);
+    addAndMakeVisible(notTempoSyncButton);
+    
+    delayKnob.setEnabled(!audioProcessor.tempoSyncd);
+    noteSelector.setEnabled(audioProcessor.tempoSyncd);
     
 }
 
@@ -88,4 +104,16 @@ void EchoEffectAudioProcessorEditor::comboBoxChanged(ComboBox *comboBox){
     }
 }
 
-
+void EchoEffectAudioProcessorEditor::buttonClicked(Button * button){
+    
+    if (button == &tempoSyncButton){
+        audioProcessor.tempoSyncd = true;
+        delayKnob.setEnabled(false);
+        noteSelector.setEnabled(true);
+    }
+    if (button == &notTempoSyncButton){
+        audioProcessor.tempoSyncd = false;
+        delayKnob.setEnabled(true);
+        noteSelector.setEnabled(false);
+    }
+}
