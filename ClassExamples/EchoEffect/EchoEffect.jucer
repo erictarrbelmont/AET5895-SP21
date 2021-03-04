@@ -15,6 +15,8 @@
       <FILE id="Fy9f2O" name="Echo.h" compile="0" resource="0" file="Source/Echo.h"/>
       <FILE id="jRqTFf" name="SimpleMeter.h" compile="0" resource="0" file="Source/SimpleMeter.h"/>
       <FILE id="WsWWgs" name="VUAnalysis.h" compile="0" resource="0" file="Source/VUAnalysis.h"/>
+      <FILE id="lP8le5" name="Biquad.cpp" compile="1" resource="0" file="Source/Biquad.cpp"/>
+      <FILE id="O5MjxE" name="Biquad.h" compile="0" resource="0" file="Source/Biquad.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

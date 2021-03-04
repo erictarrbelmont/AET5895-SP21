@@ -40,7 +40,9 @@ float Echo::processSample(float x, int c){
         delayIndex += BUFFERSIZE;
     }
     
-    float y = x + 0.7f * w[c][delayIndex];
+    float d = filter.processSample(w[c][delayIndex], c);
+    
+    float y = x + 0.7f * d;
     
     // Feed-forward
     //w[c][index[c]] = x;
@@ -60,7 +62,7 @@ float Echo::processSample(float x, int c){
 void Echo::prepare(float newFs){
     Fs = newFs;
     delaySamples = round(Fs*delayMS/1000.f);
-
+    filter.setFs(Fs);
 }
 
 void Echo::setBPM(float newBPM){
@@ -69,8 +71,35 @@ void Echo::setBPM(float newBPM){
     
 }
 
-void Echo::setNoteDuration(float newNoteDuration){
-    noteDuration = newNoteDuration;
+void Echo::setNoteDuration(NoteSelection newNoteSelection){
+    
+    noteSelect = newNoteSelection;
+    
+    switch (noteSelect) {
+        case WHOLE:
+            noteDuration = 4.0f;
+            break;
+        
+        case HALF:
+            noteDuration = 2.0f;
+            break;
+            
+        case QUARTER:
+            noteDuration = 1.0f;
+            break;
+         
+        case EIGHTH:
+            noteDuration = 0.5f;
+            break;
+            
+        case SIXTEENTH:
+            noteDuration = 0.25f;
+            break;
+            
+        default:
+            noteDuration = 1.0f;
+            break;
+    }
     
     // Convert to delaySamples;
     float beatSec = bpm * (1.f/60.f);
@@ -88,3 +117,6 @@ void Echo::setDelayMS(float newDelayMS){
     }
 }
 
+void Echo::setFilterCutoff(float freq){
+    filter.setFreq(freq);
+}

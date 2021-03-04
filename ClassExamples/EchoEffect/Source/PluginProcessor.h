@@ -56,7 +56,9 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
     
     float delayMS = 100.f;
-    float noteDuration = 1.f;
+    //float noteDuration = 1.f;
+    Echo::NoteSelection noteSelect = Echo::NoteSelection::QUARTER;
+    
     bool tempoSyncd = true;
     
     std::atomic<float> meterValue; // good for things that "interrupt" the audio thread

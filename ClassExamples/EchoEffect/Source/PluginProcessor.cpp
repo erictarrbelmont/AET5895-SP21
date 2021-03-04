@@ -146,11 +146,12 @@ void EchoEffectAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             echo.setBPM(newBPM);
             bpm = newBPM;
         }
-        echo.setNoteDuration(noteDuration);
+        echo.setNoteDuration(noteSelect);
     }
     else{ // not tempo sync'd
         echo.setDelayMS(delayMS);
     }
+    echo.setFilterCutoff(1000.f);
     
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
