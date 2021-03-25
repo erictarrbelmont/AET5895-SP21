@@ -16,7 +16,8 @@
 //==============================================================================
 /**
 */
-class GraphicsExampleAudioProcessorEditor  : public juce::AudioProcessorEditor
+class GraphicsExampleAudioProcessorEditor  : public juce::AudioProcessorEditor,
+                                                public Slider::Listener
 {
 public:
     GraphicsExampleAudioProcessorEditor (GraphicsExampleAudioProcessor&);
@@ -25,11 +26,24 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
-
+    void sliderValueChanged(Slider * slider) override;
+    
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     GraphicsExampleAudioProcessor& audioProcessor;
+    
+    Image bgImage;
+    
+    Slider knob1;
+    Slider knob2;
+    
+    // Classes for "Look and Feel"
+    LargeKnob largeKnob;
+    SmallKnob smallKnob;
+    LookAndFeel_V3 lookAndFeel3;
+    
+    
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GraphicsExampleAudioProcessorEditor)
 };
