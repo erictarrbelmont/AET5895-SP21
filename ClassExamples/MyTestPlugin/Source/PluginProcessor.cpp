@@ -22,6 +22,14 @@ MyTestPluginAudioProcessor::MyTestPluginAudioProcessor()
                        )
 #endif
 {
+    addParameter(gain = new AudioParameterFloat("gainDistortion", // string for identifying parameter in code
+                                    "Gain", // string shown in DAW to user
+                                    1.f, // minimum value for range
+                                    10.f, // maximum value for range
+                                    5.f  // default value
+                                    ));
+    
+    
 }
 
 MyTestPluginAudioProcessor::~MyTestPluginAudioProcessor()
@@ -146,7 +154,7 @@ void MyTestPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     }
     else{
         
-        myDistortion.setDrive(gain);
+        myDistortion.setDrive(*gain);
         
         
         for (int channel = 0; channel < totalNumInputChannels; ++channel)
@@ -190,12 +198,23 @@ void MyTestPluginAudioProcessor::getStateInformation (juce::MemoryBlock& destDat
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+    std::unique_ptr<XmlElement> xml (new XmlElement("MyDistortionParameters") );
+    xml->setAttribute("gainDistortion", (double) *gain);
+    
+    copyXmlToBinary(*xml, destData);
 }
 
 void MyTestPluginAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+    std::unique_ptr<XmlElement> xml (getXmlFromBinary(data, sizeInBytes));
+    if (xml != nullptr){
+        if (xml->hasTagName("MyDistortionParameters")){
+            *gain = xml->getDoubleAttribute("gainDistortion",5.f);
+        }
+    }
+    
 }
 
 //==============================================================================

@@ -56,7 +56,8 @@ public:
     
     float hardClip(float x);
     
-    float gain = 1.f;
+    //float gain = 1.f;
+    AudioParameterFloat * gain;
     bool  muteOn = false;
 private:
     

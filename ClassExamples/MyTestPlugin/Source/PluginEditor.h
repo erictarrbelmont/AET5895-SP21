@@ -16,7 +16,8 @@
 */
 class MyTestPluginAudioProcessorEditor  : public juce::AudioProcessorEditor,
                                             public juce::Slider::Listener,
-                                            public juce::Button::Listener
+                                            public juce::Button::Listener,
+                                            public juce::Timer
 {
 public:
     MyTestPluginAudioProcessorEditor (MyTestPluginAudioProcessor&);
@@ -28,6 +29,7 @@ public:
     void sliderValueChanged(Slider * slider) override;
     void buttonClicked(Button * button) override;
 
+    void timerCallback() override;
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

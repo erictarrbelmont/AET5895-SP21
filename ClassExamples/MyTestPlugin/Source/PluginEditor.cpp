@@ -23,7 +23,7 @@ MyTestPluginAudioProcessorEditor::MyTestPluginAudioProcessorEditor (MyTestPlugin
     gainSlider.setRange(1.f,10.f,.01f);
     //gainSlider.setSkewFactorFromMidPoint(1.f);
     gainSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 60, 30);
-    gainSlider.setValue(audioProcessor.gain);
+    gainSlider.setValue(*audioProcessor.gain);
     addAndMakeVisible(gainSlider);
     
     muteButton.addListener(this);
@@ -32,6 +32,7 @@ MyTestPluginAudioProcessorEditor::MyTestPluginAudioProcessorEditor (MyTestPlugin
     muteButton.setToggleState(audioProcessor.muteOn, dontSendNotification);
     addAndMakeVisible(muteButton);
     
+    startTimerHz(30);
 }
 
 MyTestPluginAudioProcessorEditor::~MyTestPluginAudioProcessorEditor()
@@ -61,7 +62,7 @@ void MyTestPluginAudioProcessorEditor::resized()
 void MyTestPluginAudioProcessorEditor::sliderValueChanged(Slider *slider){
     
     if (slider == &gainSlider){
-        audioProcessor.gain = gainSlider.getValue();
+        *audioProcessor.gain = gainSlider.getValue();
     }
     
     
@@ -73,4 +74,9 @@ void MyTestPluginAudioProcessorEditor::buttonClicked(Button * button){
         audioProcessor.muteOn = !audioProcessor.muteOn;
     }
     
+}
+
+
+void MyTestPluginAudioProcessorEditor::timerCallback(){
+    gainSlider.setValue(*audioProcessor.gain);
 }
