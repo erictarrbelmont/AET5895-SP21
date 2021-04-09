@@ -19,13 +19,23 @@ StereoWidenerAudioProcessor::StereoWidenerAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), state(*this, nullptr, "WidthParams",
+                                createParameterLayout())
 #endif
 {
 }
 
 StereoWidenerAudioProcessor::~StereoWidenerAudioProcessor()
 {
+}
+
+AudioProcessorValueTreeState::ParameterLayout StereoWidenerAudioProcessor::createParameterLayout(){
+    std::vector<std::unique_ptr<RangedAudioParameter>> params;
+    
+    params.push_back( std::make_unique<AudioParameterFloat> ("widthValue","Width",0.f,2.f,1.f) );
+    
+    return {params.begin() , params.end() };
+    
 }
 
 //==============================================================================
@@ -136,7 +146,8 @@ void StereoWidenerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    midSide.setStereoWidthValue(1.5f);
+    float widthValue = *state.getRawParameterValue("widthValue");
+    midSide.setStereoWidthValue(widthValue);
     
     // METHOD 1: Use loop to index samples here
 //    for (int n = 0; n < buffer.getNumSamples(); n++){
@@ -175,12 +186,22 @@ void StereoWidenerAudioProcessor::getStateInformation (juce::MemoryBlock& destDa
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+    auto currentState = state.copyState();
+    std::unique_ptr<XmlElement> xml (currentState.createXml());
+    copyXmlToBinary(*xml, destData);
+    
 }
 
 void StereoWidenerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+    std::unique_ptr<XmlElement> xml ( getXmlFromBinary(data, sizeInBytes));
+    if (xml && xml->hasTagName(state.state.getType())){
+        state.replaceState(ValueTree::fromXml(*xml));
+    }
+    
+    
 }
 
 //==============================================================================
